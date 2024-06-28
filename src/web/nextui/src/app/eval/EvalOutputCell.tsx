@@ -96,6 +96,13 @@ function EvalOutputCell({
     failReasons = (output.gradingResult?.componentResults || [])
       .filter((result) => (result ? !result.pass : false))
       .map((result) => result.reason);
+
+    // This is the case where there was an error so the text wasn't graded
+    // The error message is the first part of the text
+    if (failReasons.length === 0) {
+      failReasons = [text.split('---')[0]];
+    }
+
     text = text.split('---').slice(1).join('---');
   }
 
